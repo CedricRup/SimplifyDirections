@@ -9,14 +9,14 @@ public static class Simplifier
     {
         return initialDirections.Aggregate(new Stack<string>(), Folder).ToArray();
 
-        Stack<string> Folder(Stack<string> currentInstruction, string newInstruction)
+        Stack<string> Folder(Stack<string> previousInstructions, string newInstruction)
         {
-            if (currentInstruction.TryPeek(out var lastInstruction) &&
+            if (previousInstructions.TryPeek(out var lastInstruction) &&
                 AreOpposite(lastInstruction, newInstruction))
-                currentInstruction.Pop();
+                previousInstructions.Pop();
             else
-                currentInstruction.Push(newInstruction);
-            return currentInstruction;
+                previousInstructions.Push(newInstruction);
+            return previousInstructions;
         }
         
         bool AreOpposite(string firstDirection, string secondDirection)
