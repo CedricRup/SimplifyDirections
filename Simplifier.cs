@@ -7,17 +7,16 @@ public static class Simplifier
 {
     public static string[] Simplify(string[] initialDirections)
     {
-        var instructions = new Stack<string>();
         return initialDirections.Aggregate(new Stack<string>(), Folder).ToArray();
 
         Stack<string> Folder(Stack<string> currentInstruction, string newInstruction)
         {
-            if (instructions.TryPeek(out var lastInstruction) &&
+            if (currentInstruction.TryPeek(out var lastInstruction) &&
                 AreOpposite(lastInstruction, newInstruction))
-                instructions.Pop();
+                currentInstruction.Pop();
             else
-                instructions.Push(newInstruction);
-            return instructions;
+                currentInstruction.Push(newInstruction);
+            return currentInstruction;
         }
         
         bool AreOpposite(string firstDirection, string secondDirection)
